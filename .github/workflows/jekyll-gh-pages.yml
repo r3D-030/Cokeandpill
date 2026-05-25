@@ -23,10 +23,9 @@ jobs:
         echo "THEOS=$HOME/theos" >> $GITHUB_ENV
         echo "$HOME/theos/bin" >> $GITHUB_PATH
 
-    - name: Setup iOS SDK
+    - name: Setup iOS SDK (Using Your Secure Link)
       run: |
-        mkdir -p $HOME/theos/sdks
-        curl -L https://github.com/xybp888/iOS-SDKs/raw/master/iPhoneOS16.5.sdk.tar.xz | tar -xf - -C $HOME/theos/sdks
+        git clone --depth=1 https://github.com/theos/sdks.git $HOME/theos/sdks
 
     - name: Compile Package
       run: |
