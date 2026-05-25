@@ -1,3 +1,4 @@
+
 name: Build Puccy App
 
 on:
@@ -23,10 +24,15 @@ jobs:
         echo "THEOS=$HOME/theos" >> $GITHUB_ENV
         echo "$HOME/theos/bin" >> $GITHUB_PATH
 
-    - name: Setup iOS SDK (Using Your Secure Link)
+    - name: Setup iOS SDK
       run: |
         rm -rf $HOME/theos/sdks
         git clone --depth=1 https://github.com/theos/sdks.git $HOME/theos/sdks
+
+    - name: Fix Swift Support Submodule
+      run: |
+        cd $HOME/theos
+        git submodule update --init --recursive vendor/swift-support
 
     - name: Compile Package
       run: |
