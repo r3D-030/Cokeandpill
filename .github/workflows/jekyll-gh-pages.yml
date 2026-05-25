@@ -25,6 +25,7 @@ jobs:
 
     - name: Setup iOS SDK (Using Your Secure Link)
       run: |
+        rm -rf $HOME/theos/sdks
         git clone --depth=1 https://github.com/theos/sdks.git $HOME/theos/sdks
 
     - name: Compile Package
