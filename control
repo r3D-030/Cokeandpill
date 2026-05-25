@@ -1,0 +1,11 @@
+Package: com.puccy.app
+Name: Puccy
+Version: 1.0.0
+Architecture: iphoneos-arm64
+Description: Rootless IPA installer & app manager for modern jailbreaks.
+ Permanently install IPAs, manage apps, inject tweaks with ElleKit.
+ Supports Dopamine & palera1n rootless environments.
+Maintainer: Puccy Dev <puccy@jb.dev>
+Author: Puccy Dev
+Section: Utilities
+Depends: firmware (>= 15.0), ellekit

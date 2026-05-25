@@ -1,0 +1,42 @@
+name: Build Puccy App
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
+    - name: Install Theos Dependencies
+      run: |
+        brew install ldid xz
+        
+    - name: Setup Theos Environment
+      run: |
+        bash -c "$(curl -fsSL https://raw.githubusercontent.com/theos/theos/master/bin/install-theos)"
+        echo "THEOS=$HOME/theos" >> $GITHUB_ENV
+        echo "$HOME/theos/bin" >> $GITHUB_PATH
+
+    - name: Setup iOS SDK
+      run: |
+        mkdir -p $HOME/theos/sdks
+        curl -L https://github.com/theos/sdks/raw/master/iPhoneOS16.5.sdk.tar.xz | tar -xf - -C $HOME/theos/sdks
+
+    - name: Compile Package
+      run: |
+        export THEOS_NO_SWIFT_CACHE=3
+        make clean package
+      env:
+        THEOS: ${{ env.THEOS }}
+
+    - name: Upload DEB Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: Puccy-Package
+        path: packages/*.deb
