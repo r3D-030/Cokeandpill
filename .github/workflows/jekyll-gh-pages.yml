@@ -29,10 +29,13 @@ jobs:
         rm -rf $HOME/theos/sdks
         git clone --depth=1 https://github.com/theos/sdks.git $HOME/theos/sdks
 
-    - name: Fix Swift Support Submodule
+    - name: Fix and Build Swift Support
       run: |
         cd $HOME/theos
         git submodule update --init --recursive vendor/swift-support
+        # تفعيل وبناء أدوات السويفت داخل الثيوس باش ما تعطلش الـ package
+        cd vendor/swift-support
+        make
 
     - name: Compile Package
       run: |
