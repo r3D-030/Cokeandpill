@@ -26,7 +26,7 @@ jobs:
     - name: Setup iOS SDK
       run: |
         mkdir -p $HOME/theos/sdks
-        curl -L https://github.com/theos/sdks/raw/master/iPhoneOS16.5.sdk.tar.xz | tar -xf - -C $HOME/theos/sdks
+        curl -L https://github.com/xybp888/iOS-SDKs/raw/master/iPhoneOS16.5.sdk.tar.xz | tar -xf - -C $HOME/theos/sdks
 
     - name: Compile Package
       run: |
