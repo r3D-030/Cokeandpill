@@ -28,17 +28,16 @@ jobs:
         rm -rf $HOME/theos/sdks
         git clone --depth=1 https://github.com/theos/sdks.git $HOME/theos/sdks
 
-    - name: Build Swift Support Tools (The Right Way)
-      run: |
-        export THEOS=$HOME/theos
-        cd $THEOS
-        git submodule update --init --recursive vendor/swift-support
-        # الأمر الرسمي لبناء أداة generate-output-file-map الناقصة ديريكت
-        make -C vendor/swift-support
-
     - name: Compile Package
       run: |
+        export THEOS=$HOME/theos
         export THEOS_NO_SWIFT_CACHE=3
+        # تحديث المكونات الفرعية أوتوماتيكياً قبل البناء
+        cd $THEOS
+        git submodule update --init --recursive
+        
+        # العودة لمجلد المشروع وبدء البناء
+        cd $GITHUB_WORKSPACE
         make clean package
       env:
         THEOS: ${{ env.THEOS }}
