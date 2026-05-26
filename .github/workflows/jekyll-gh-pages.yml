@@ -1,4 +1,3 @@
-
 name: Build Puccy App
 
 on:
@@ -14,6 +13,11 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v4
 
+    - name: Setup Python (Crucial for Swift Tools)
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+
     - name: Install Theos Dependencies
       run: |
         brew install ldid xz
@@ -28,14 +32,6 @@ jobs:
       run: |
         rm -rf $HOME/theos/sdks
         git clone --depth=1 https://github.com/theos/sdks.git $HOME/theos/sdks
-
-    - name: Fix and Build Swift Support
-      run: |
-        cd $HOME/theos
-        git submodule update --init --recursive vendor/swift-support
-        # تفعيل وبناء أدوات السويفت داخل الثيوس باش ما تعطلش الـ package
-        cd vendor/swift-support
-        make
 
     - name: Compile Package
       run: |
