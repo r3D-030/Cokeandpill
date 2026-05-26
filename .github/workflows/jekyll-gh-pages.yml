@@ -13,11 +13,6 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v4
 
-    - name: Setup Python (Crucial for Swift Tools)
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.10'
-
     - name: Install Theos Dependencies
       run: |
         brew install ldid xz
@@ -32,6 +27,14 @@ jobs:
       run: |
         rm -rf $HOME/theos/sdks
         git clone --depth=1 https://github.com/theos/sdks.git $HOME/theos/sdks
+
+    - name: Build Swift Support Tools (The Right Way)
+      run: |
+        export THEOS=$HOME/theos
+        cd $THEOS
+        git submodule update --init --recursive vendor/swift-support
+        # الأمر الرسمي لبناء أداة generate-output-file-map الناقصة ديريكت
+        make -C vendor/swift-support
 
     - name: Compile Package
       run: |
